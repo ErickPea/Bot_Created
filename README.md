@@ -189,5 +189,3 @@ CREATE TABLE publicaciones (
 * Implementar `TwitterBotService` y otros servicios según se necesite.
 
 ---
-
-Si deseas la generación en formato `.docx` u otro formato, puedo realizarlo.
