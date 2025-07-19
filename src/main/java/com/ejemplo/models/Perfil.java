@@ -12,7 +12,8 @@ public class Perfil {
     private String urlPerfil;    // URL directa al perfil del usuario.
     private String FotoPerfil;   // URL o ruta a la foto de perfil del usuario.
     private String FotoPortada;  // URL o ruta a la foto de portada del usuario.
-    private String Contrasena;   // Contraseña del perfil (¡manejar con cuidado en entornos reales!).
+    private String contrasenaHash;   // Hash de la contraseña del perfil (seguro).
+    private String salt;             // Salt para la encriptación de la contraseña.
 
     /**
      * Constructor para crear una nueva instancia de Perfil.
@@ -23,16 +24,19 @@ public class Perfil {
      * @param urlPerfil   URL del perfil del usuario.
      * @param FotoPerfil  URL o ruta de la foto de perfil.
      * @param FotoPortada URL o ruta de la foto de portada.
-     * @param Contrasena  Contraseña del perfil.
+     * @param contrasena  Contraseña del perfil (será encriptada).
      */
-    public Perfil(String nombre, String apellido, String email, String urlPerfil, String FotoPerfil, String FotoPortada, String Contrasena) {
+    public Perfil(String nombre, String apellido, String email, String urlPerfil, String FotoPerfil, String FotoPortada, String contrasena) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
         this.urlPerfil = urlPerfil;
         this.FotoPerfil = FotoPerfil;
         this.FotoPortada = FotoPortada;
-        this.Contrasena = Contrasena;
+        
+        // Encriptar la contraseña
+        this.salt = com.ejemplo.utils.SecurityUtils.generateSalt();
+        this.contrasenaHash = com.ejemplo.utils.SecurityUtils.encryptPassword(contrasena, this.salt);
     }
 
     // --- Métodos Getters ---
@@ -62,8 +66,19 @@ public class Perfil {
         return FotoPortada;
     }
 
-    public String getContrasena() {
-        return Contrasena;
+    public String getContrasenaHash() {
+        return contrasenaHash;
+    }
+    
+    public String getSalt() {
+        return salt;
+    }
+    
+    /**
+     * Verifica si una contraseña coincide con el hash almacenado
+     */
+    public boolean verificarContrasena(String contrasena) {
+        return com.ejemplo.utils.SecurityUtils.verifyPassword(contrasena, this.contrasenaHash, this.salt);
     }
 
     /**
@@ -79,6 +94,6 @@ public class Perfil {
         // para entornos de producción, ya que podría terminar en logs.
         return nombre + " " + apellido + " | Email: " + email + " | URL: " + urlPerfil +
                " | Foto Perfil: " + FotoPerfil + " | Foto Portada: " + FotoPortada +
-               " | Contraseña: [OMITIDA POR SEGURIDAD]"; // Modificado para evitar imprimir la contraseña real.
+               " | Contraseña: [ENCRIPTADA]"; // La contraseña está encriptada de forma segura.
     }
 }

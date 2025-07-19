@@ -1,0 +1,11 @@
+com\ejemplo\persistence\CookieManager.class
+com\ejemplo\persistence\DatabaseConnection.class
+com\ejemplo\models\Perfil.class
+com\ejemplo\services\FacebookBotService.class
+com\ejemplo\botcreate\orquestador\BotManager.class
+com\ejemplo\models\EstadoCuenta.class
+com\ejemplo\persistence\DatabaseInitializer.class
+com\ejemplo\services\TwitterBotService.class
+com\ejemplo\models\CookieData.class
+com\ejemplo\botcreate\Main.class
+com\ejemplo\services\DatabaseService.class

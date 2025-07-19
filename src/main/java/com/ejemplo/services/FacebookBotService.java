@@ -2,6 +2,8 @@
 package com.ejemplo.services; // Define el paquete del servicio.
 
 import com.ejemplo.models.Perfil; // Objeto para almacenar datos del perfil.
+import com.ejemplo.config.AppConfig; // Configuración de la aplicación.
+import com.ejemplo.utils.SecurityUtils; // Utilidades de seguridad.
 import com.microsoft.playwright.*; // Framework de automatización web.
 import com.github.javafaker.Faker; // Generador de datos de prueba.
 
@@ -18,37 +20,43 @@ public class FacebookBotService {
      * @return Perfil con datos de la cuenta creada, o null si falla.
      */
     public Perfil crearCuenta() {
+        LoggerService.startOperation("Creación de cuenta Facebook");
+        
         try (Playwright playwright = Playwright.create()) {
-            // Configura y lanza el navegador Chromium (visible para depuración).
-            Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
+            // Configura y lanza el navegador Chromium usando configuración.
+            Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(AppConfig.isHeadless()));
             BrowserContext context = browser.newContext(); // Sesión de navegador aislada.
             Page page = context.newPage(); // Nueva pestaña.
 
-            // Genera datos de usuario aleatorios.
+            // Genera datos de usuario aleatorios y seguros.
             Faker faker = new Faker();
             String nombre = faker.name().firstName();
             String apellido = faker.name().lastName();
             String email = nombre.toLowerCase() + "." + apellido.toLowerCase() + "@gmail.com";
-            String password = faker.internet().password(8, 12);
+            String password = SecurityUtils.generateSecurePassword();
+            
+            LoggerService.info("Generando perfil para: " + email);
 
-            // Navega al formulario de registro de Facebook.
-            page.navigate("https://www.facebook.com/reg/");
+            // Navega al formulario de registro de Facebook usando configuración.
+            page.navigate(AppConfig.getFacebookRegistrationUrl());
+            LoggerService.info("Navegando a formulario de registro");
 
             // Rellena los campos del formulario.
             page.fill("input[name='firstname']", nombre);
             page.fill("input[name='lastname']", apellido);
             page.fill("input[name='reg_email__']", email);
 
-            // Simula Tab y espera, a veces necesario para activar lógica de la página.
+            // Simula Tab y espera, usando timeout configurado.
             page.keyboard().press("Tab");
-            page.waitForTimeout(2000);
+            page.waitForTimeout(AppConfig.getFacebookWaitTimeout());
+            LoggerService.info("Formulario llenado correctamente");
 
             // Maneja el campo de confirmación de email, que puede aparecer condicionalmente.
             if (page.isVisible("input[name='reg_email_confirmation__']")) {
                 page.fill("input[name='reg_email_confirmation__']", email);
-                System.out.println("Campo de confirmación llenado.");
+                LoggerService.info("Campo de confirmación llenado");
             } else {
-                System.out.println("No se mostró el campo de confirmación.");
+                LoggerService.info("No se mostró el campo de confirmación");
             }
 
             page.fill("input[name='reg_passwd__']", password);
@@ -60,19 +68,23 @@ public class FacebookBotService {
             // Captura la URL actual (probablemente aún la de registro).
             String profileUrl = page.url();
 
-            // Espera extensa para observación manual o manejo de CAPTCHAs.
-            // ¡ADVERTENCIA! En producción, reemplazar con esperas explícitas (ej. waitForSelector).
-            page.waitForTimeout(70000);
+            // Espera configurada para observación manual o manejo de CAPTCHAs.
+            LoggerService.info("Esperando " + AppConfig.getBotTimeout() + " segundos para completar registro");
+            page.waitForTimeout(AppConfig.getBotTimeout() * 1000);
 
             // Cierra recursos de Playwright.
             context.close();
             browser.close();
 
-            // Retorna el objeto Perfil con los datos generados.
-            return new Perfil(nombre, apellido, email, profileUrl, fotoPerfil, fotoPortada, password);
+            // Retorna el objeto Perfil con los datos generados (contraseña encriptada).
+            Perfil perfil = new Perfil(nombre, apellido, email, profileUrl, fotoPerfil, fotoPortada, password);
+            LoggerService.profileCreated(email, "Facebook");
+            LoggerService.endOperation("Creación de cuenta Facebook");
+            return perfil;
 
         } catch (Exception e) {
-            e.printStackTrace(); // Imprime el error.
+            LoggerService.error("Error creando cuenta Facebook", e);
+            LoggerService.profileCreationFailed("Facebook", e.getMessage());
             return null; // Retorna null si hay una falla.
         }
     }

@@ -42,17 +42,18 @@ public class DatabaseService {
             stmt.setString(6, perfil.getUrlPerfil());
             stmt.setString(7, perfil.getFotoPerfil());
             stmt.setString(8, perfil.getFotoPortada());
-            stmt.setString(9, perfil.getContrasena());
+            stmt.setString(9, perfil.getContrasenaHash());
             stmt.setString(10, perfil.getNombre());
             stmt.setString(11, perfil.getApellido());
 
             // Ejecuta la consulta de actualización (INSERT, UPDATE, DELETE).
             stmt.executeUpdate();
-            System.out.println("Perfil guardado exitosamente en la base de datos.");
+            LoggerService.databaseOperation("INSERT", "Perfil guardado: " + perfil.getEmail());
 
         } catch (SQLException e) {
             // Captura y registra cualquier excepción SQL que ocurra durante la operación de la base de datos.
-            e.printStackTrace(); // Imprime la traza de la pila para depuración.
+            LoggerService.error("Error al guardar perfil en base de datos: " + perfil.getEmail(), e);
+            throw new RuntimeException("Error al guardar perfil", e);
         }
     }
 }

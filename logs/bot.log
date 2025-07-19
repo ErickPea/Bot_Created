@@ -1,0 +1,46 @@
+jul 19, 2025 8:56:34 A. M. com.ejemplo.services.LoggerService info
+INFORMACIÓN: [2025-07-19 08:56:34] INFO: 🚀 Iniciando operación: Bot de Registro Masivo
+jul 19, 2025 8:56:34 A. M. com.ejemplo.services.LoggerService info
+INFORMACIÓN: [2025-07-19 08:56:34] INFO: 🚀 Iniciando Bot de Registro Masivo...
+jul 19, 2025 8:56:34 A. M. com.ejemplo.services.LoggerService info
+INFORMACIÓN: [2025-07-19 08:56:34] INFO: ========================================
+jul 19, 2025 8:56:34 A. M. com.ejemplo.services.LoggerService info
+INFORMACIÓN: [2025-07-19 08:56:34] INFO: 🤖 Iniciando gestor de bots...
+jul 19, 2025 8:56:34 A. M. com.ejemplo.services.LoggerService info
+INFORMACIÓN: [2025-07-19 08:56:34] INFO: Iniciando 1 bot(s) de Facebook
+jul 19, 2025 8:56:35 A. M. com.ejemplo.services.LoggerService info
+INFORMACIÓN: [2025-07-19 08:56:35] INFO: Esperando 60 segundos para que terminen los bots
+jul 19, 2025 8:56:35 A. M. com.ejemplo.services.LoggerService info
+INFORMACIÓN: [2025-07-19 08:56:35] INFO: 🚀 Iniciando operación: Creación de cuenta Facebook
+jul 19, 2025 8:57:35 A. M. com.ejemplo.services.LoggerService warning
+ADVERTENCIA: [2025-07-19 08:57:35] WARNING: El pool de hilos no terminó en el tiempo esperado. Se forzó el apagado.
+jul 19, 2025 8:57:35 A. M. com.ejemplo.services.LoggerService error
+GRAVE: [2025-07-19 08:57:35] ERROR: Error creando cuenta Facebook
+java.lang.RuntimeException: Failed to create driver
+	at com.microsoft.playwright.impl.driver.Driver.createAndInstall(Driver.java:105)
+	at com.microsoft.playwright.impl.driver.Driver.ensureDriverInstalled(Driver.java:57)
+	at com.microsoft.playwright.impl.PlaywrightImpl.createImpl(PlaywrightImpl.java:46)
+	at com.microsoft.playwright.impl.PlaywrightImpl.create(PlaywrightImpl.java:36)
+	at com.microsoft.playwright.Playwright.create(Playwright.java:110)
+	at com.microsoft.playwright.Playwright.create(Playwright.java:114)
+	at com.ejemplo.services.FacebookBotService.crearCuenta(FacebookBotService.java:25)
+	at com.ejemplo.botcreate.orquestador.BotManager.lambda$0(BotManager.java:44)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: java.lang.InterruptedException
+	at java.base/java.lang.ProcessImpl.waitFor(ProcessImpl.java:603)
+	at com.microsoft.playwright.impl.driver.jar.DriverJar.installBrowsers(DriverJar.java:93)
+	at com.microsoft.playwright.impl.driver.jar.DriverJar.initialize(DriverJar.java:68)
+	at com.microsoft.playwright.impl.driver.Driver.initialize(Driver.java:64)
+	at com.microsoft.playwright.impl.driver.Driver.createAndInstall(Driver.java:101)
+	... 12 more
+
+jul 19, 2025 8:57:35 A. M. com.ejemplo.services.LoggerService info
+INFORMACIÓN: [2025-07-19 08:57:35] INFO: ✅ Operación completada: Bot de Registro Masivo
+jul 19, 2025 8:57:35 A. M. com.ejemplo.services.LoggerService error
+GRAVE: [2025-07-19 08:57:35] ERROR: ❌ Error creando perfil en Facebook: Failed to create driver
+jul 19, 2025 8:57:35 A. M. com.ejemplo.services.LoggerService error
+GRAVE: [2025-07-19 08:57:35] ERROR: Error al crear perfil

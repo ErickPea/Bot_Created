@@ -1,0 +1,11 @@
+C:\Users\SANTIAGO\Documents\Bot_Created\src\main\java\com\ejemplo\botcreate\Main.java
+C:\Users\SANTIAGO\Documents\Bot_Created\src\main\java\com\ejemplo\botcreate\orquestador\BotManager.java
+C:\Users\SANTIAGO\Documents\Bot_Created\src\main\java\com\ejemplo\models\CookieData.java
+C:\Users\SANTIAGO\Documents\Bot_Created\src\main\java\com\ejemplo\models\EstadoCuenta.java
+C:\Users\SANTIAGO\Documents\Bot_Created\src\main\java\com\ejemplo\models\Perfil.java
+C:\Users\SANTIAGO\Documents\Bot_Created\src\main\java\com\ejemplo\persistence\CookieManager.java
+C:\Users\SANTIAGO\Documents\Bot_Created\src\main\java\com\ejemplo\persistence\DatabaseConnection.java
+C:\Users\SANTIAGO\Documents\Bot_Created\src\main\java\com\ejemplo\persistence\DatabaseInitializer.java
+C:\Users\SANTIAGO\Documents\Bot_Created\src\main\java\com\ejemplo\services\DatabaseService.java
+C:\Users\SANTIAGO\Documents\Bot_Created\src\main\java\com\ejemplo\services\FacebookBotService.java
+C:\Users\SANTIAGO\Documents\Bot_Created\src\main\java\com\ejemplo\services\TwitterBotService.java

@@ -11,13 +11,10 @@ import java.sql.SQLException;  // Excepción específica para errores de base de
 public class DatabaseConnection {
 
     // --- Configuración de la Conexión a la Base de Datos ---
-    // URL de conexión JDBC para MySQL.
-    // Incluye el host (localhost), puerto (3306), nombre de la DB (proyecto_bots).
-    // 'useSSL=false' para deshabilitar SSL (¡cambiar a true en producción!).
-    // 'serverTimezone=UTC' para configurar la zona horaria del servidor.
-    private static final String URL = "jdbc:mysql://localhost:3306/proyecto_bots?useSSL=false&serverTimezone=UTC";
-    private static final String USER = "root";  // ¡IMPORTANTE! Cambia esto por tu usuario de la base de datos.
-    private static final String PASSWORD = "";  // ¡IMPORTANTE! Cambia esto por tu contraseña de la base de datos.
+    // Las configuraciones se cargan desde config.properties
+    private static final String URL = com.ejemplo.config.AppConfig.getDatabaseUrl();
+    private static final String USER = com.ejemplo.config.AppConfig.getDatabaseUser();
+    private static final String PASSWORD = com.ejemplo.config.AppConfig.getDatabasePassword();
 
     /**
      * Establece y retorna una conexión a la base de datos.
